@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meet Her Now</title>
+    <title>Locanto For Meetup</title>
     <style>
         * {
             margin: 0;
@@ -41,7 +41,7 @@
         }
 
         .bg-slide.active {
-            opacity: 0.4; /* ব্যাকগ্রাউন্ড উজ্জ্বলতা কমানো হয়েছে */
+            opacity: 0.4;
         }
 
         .wrapper {
@@ -85,28 +85,73 @@
             backdrop-filter: blur(4px);
         }
 
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
         .text-title {
             font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #f1f5f9;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
-        .btn-shake-cta {
-            background: linear-gradient(135deg, #00dbde, #fc00ff);
+        .highlight-age {
+            color: #ff3366;
+            font-weight: bold;
+            font-size: 20px;
+            display: block;
+            margin-top: 15px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-yes-1 { background-color: #28a745; color: white; }
+        .btn-no-1 { background-color: #dc3545; color: white; }
+        
+        .btn-yes-2 { background-color: #007bff; color: white; }
+        .btn-no-2 { background-color: #ffc107; color: #000; }
+
+        .btn-shake {
+            background: linear-gradient(135deg, #ff3366, #ff5e62);
             color: white;
             width: 100%;
             padding: 16px;
             font-size: 18px;
-            border-radius: 12px;
+            border-radius: 8px;
             border: none;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 20px rgba(0, 219, 222, 0.6);
-            animation: lightShake 2s infinite, pulseGlow 1.5s infinite alternate;
-            text-transform: uppercase;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+            animation: lightShake 2s infinite;
         }
 
         @keyframes lightShake {
@@ -115,11 +160,606 @@
             20%, 40%, 60%, 80% { transform: translateX(3px); }
         }
 
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 10px rgba(0, 219, 222, 0.6); }
-            100% { box-shadow: 0 0 30px rgba(252, 0, 255, 1); }
+        #bufferingScreen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #060713;
+            z-index: 20;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
         }
 
+        .radar-box {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            border: 2px solid rgba(0, 219, 222, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            background: radial-gradient(circle, rgba(0,219,222,0.05) 0%, rgba(0,0,0,0) 70%);
+        }
+
+        .radar-box::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px dashed rgba(252, 0, 255, 0.4);
+            border-radius: 50%;
+            animation: spinRadar 3s linear infinite;
+        }
+
+        .radar-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #00dbde;
+            border-radius: 50%;
+            opacity: 0;
+            animation: pulseRadar 1.5s linear infinite;
+        }
+
+        @keyframes spinRadar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseRadar {
+            0% { transform: scale(0.6); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        .live-photo-scan {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            border: 3px solid #fc00ff;
+            object-fit: cover;
+            z-index: 25;
+            box-shadow: 0 0 15px rgba(252, 0, 255, 0.6);
+        }
+
+        .scan-status {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00dbde;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .scan-details {
+            font-size: 13px;
+            color: #a1a1aa;
+            min-height: 20px;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        #finalPage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 5;
+            height: 100vh;
+            width: 100vw;
+            background-color: #ffffff;
+            overflow-y: auto;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 20px 20px 20px;
+        }
+
+        .final-logo-box {
+            margin-top: 5px;
+            margin-bottom: 3px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .final-logo-box img {
+            width: 100%;
+            max-width: 360px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .powered-tag {
+            font-size: 11px;
+            color: #666;
+            text-align: right;
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto 15px auto;
+            padding-right: 5px;
+            font-weight: bold;
+        }
+
+        .profile-container {
+            position: relative;
+            width: 125px;
+            height: 125px;
+            margin: 15px auto;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #00dbde;
+            display: block;
+            transition: filter 0.5s ease-in-out;
+        }
+
+        .profile-pic.blur-active {
+            filter: blur(1.5px) opacity(0.8);
+        }
+
+        .active-dot {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 18px;
+            height: 18px;
+            background-color: #23d160;
+            border: 3px solid #0f0f13;
+            border-radius: 50%;
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        .profile-details {
+            font-size: 15px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 219, 222, 0.15);
+            border: 1px solid rgba(0, 219, 222, 0.4);
+            color: #00dbde;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            gap: 5px;
+        }
+
+        .location-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: #00dbde;
+        }
+
+        .btn-cpa {
+            display: block;
+            background: linear-gradient(135deg, #00dbde, #fc00ff);
+            color: white;
+            text-decoration: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(0, 219, 222, 0.5);
+            animation: pulseGlow 1.5s infinite alternate;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .btn-msg-trigger {
+            display: block;
+            background: #181924;
+            border: 1px solid #00dbde;
+            color: #00dbde;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 219, 222, 0.1);
+        }
+
+        .btn-msg-trigger:hover {
+            background: #00dbde;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 219, 222, 0.4);
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(0, 219, 222, 0.5); }
+            100% { transform: scale(1.03); box-shadow: 0 0 25px rgba(252, 0, 255, 0.8); }
+        }
+
+        #finalBufferingScreen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border-left-color: #00dbde;
+            animation: spin 0.8s linear infinite;
+            margin-top: 25px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ----------------------------------------------------
+           FULL-SCREEN CHAT INTERFACE AND BRAND LOGO INTEGRATION
+        ---------------------------------------------------- */
+        #chatPage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0b0c10;
+            z-index: 100;
+            flex-direction: column;
+        }
+
+        .chat-top-navbar {
+            background: #0f1017;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .chat-site-branding {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 8px;
+        }
+
+        .chat-site-branding img {
+            height: 35px;
+            max-width: 80%;
+            object-fit: contain;
+        }
+
+        .chat-header-main {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+
+        .chat-back-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #a1a1aa;
+        }
+
+        .chat-user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .chat-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #23d160;
+        }
+
+        .chat-user-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .chat-status-dot {
+            font-size: 12px;
+            color: #23d160;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 2px;
+        }
+
+        .chat-status-dot::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #23d160;
+            border-radius: 50%;
+        }
+
+        .chat-messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: radial-gradient(circle at top, #11121a 0%, #0b0c10 100%);
+        }
+
+        .msg {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 15px;
+            line-height: 1.45;
+            position: relative;
+            word-wrap: break-word;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .msg.incoming {
+            background: #1f212e;
+            color: #f1f5f9;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .msg.outgoing {
+            background: linear-gradient(135deg, #00b4db, #00d2ff);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .msg-meta {
+            align-self: flex-end;
+            font-size: 11px;
+            color: #64748b;
+            margin-top: -8px;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .seen-avatar {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+        }
+
+        .seen-avatar.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background: #1f212e;
+            padding: 12px 18px;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            height: 10px;
+        }
+
+        .typing-dots span {
+            width: 7px;
+            height: 7px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: chatTyping 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes chatTyping {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        .chat-bottom-input-bar {
+            background: #0f1017;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-bottom-input-bar input {
+            flex: 1;
+            background: #07080c;
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 14px 18px;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-bottom-input-bar input:focus {
+            border-color: #00dbde;
+        }
+
+        .chat-bottom-input-bar input::placeholder {
+            color: #4b5563;
+        }
+
+        .chat-action-send-btn {
+            background: #00dbde;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(0, 219, 222, 0.3);
+        }
+
+        .chat-action-send-btn:active {
+            transform: scale(0.95);
+        }
+
+        .chat-action-send-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+            margin-left: 2px;
+        }
+
+        /* ----------------------------------------------------
+           MODAL FOR SUBSCRIPTION/PAYWALL WITH INTEGRATED LOGO
+        ---------------------------------------------------- */
+        .secure-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 5, 10, 0.96);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .secure-modal-content {
+            background: #0e0f16;
+            border: 2px solid #fc00ff;
+            box-shadow: 0 0 30px rgba(252, 0, 255, 0.4);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            padding: 35px 25px;
+            text-align: center;
+            animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalSlideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 25px;
+            object-fit: contain;
+        }
+
+        .modal-error-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            padding: 18px;
+            border-radius: 10px;
+            color: #f87171;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .btn-modal-action {
+            display: block;
+            background: linear-gradient(135deg, #00dbde, #fc00ff);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 5px 20px rgba(0, 219, 222, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-modal-action:active {
+            transform: scale(0.98);
+        }
     </style>
 </head>
 <body>
@@ -132,17 +772,164 @@
         <div class="bg-slide" style="background-image: url('v5.webp');"></div>
     </div>
 
-    <div class="wrapper">
+    <div class="wrapper" id="pageWrapper">
         <div class="top-logo-box">
             <img src="lgd1.png" alt="Locanto Logo">
         </div>
 
         <div class="card">
-            <p class="text-title">
-                Get connect you with single, married, unmarried, or divorced women near your location. Thousands of verified single women apply on this website for absolute sexual satisfaction.
-            </p>
-            <button class="btn-shake-cta" onclick="directAffiliateLink()">GET LAID NOW</button>
+            <div id="step1" class="step-content active">
+                <p class="text-title">
+                    Welcome to Locanto For Meetup Website. An Official Locanto Website For Meetup. Our goal is to connect you with single, married, unmarried, or divorced women near your location.
+                </p>
+                <span class="highlight-age">Is your age over 18+?</span>
+                <div class="btn-group">
+                    <button class="btn btn-yes-1" onclick="nextStep(2)">Yes</button>
+                    <button class="btn btn-no-1" onclick="nextStep(2)">No</button>
+                </div>
+            </div>
+
+            <div id="step2" class="step-content">
+                <p class="text-title">
+                    Every day, thousands of verified single women apply on this website for absolute sexual satisfaction. You will be connected with a single woman closest to your location. Do you give permission?
+                </p>
+                <div class="btn-group">
+                    <button class="btn btn-yes-2" onclick="nextStep(3)">Yes</button>
+                    <button class="btn btn-no-2" onclick="nextStep(3)">No</button>
+                </div>
+            </div>
+
+            <div id="step3" class="step-content">
+                <p class="text-title">
+                    You will be connected to a single woman near your location very soon. She might be someone you already know. Please do not leak our verified users' profiles or information. They wish to enjoy intimacy with full privacy.
+                </p>
+                <button class="btn-shake" onclick="triggerFirstBuffering()">FIND SOMEONE NEAR ME</button>
+            </div>
         </div>
+    </div>
+
+    <div id="bufferingScreen">
+        <div class="radar-box">
+            <div class="radar-pulse"></div>
+            <img src="q1.webp" id="liveScanPic" class="live-photo-scan" alt="Scanning">
+        </div>
+        <div class="scan-status" id="scanStatusText">ANALYZING GPS SIGNAL...</div>
+        <div class="scan-details" id="scanDetailsText">Initializing proximity matrix...</div>
+    </div>
+
+    <div id="finalPage">
+        <div class="final-logo-box">
+            <img src="sf1.png" alt="Secure Logo">
+        </div>
+        <div class="powered-tag">Powered by Locanto</div>
+
+        <div class="card" style="background: rgba(15, 15, 25, 0.98); border-color: rgba(0, 219, 222, 0.2); width: 100%; margin-top: 0;">
+            <p class="text-title" style="color: #00dbde; font-weight: bold; font-size: 16px; margin-bottom: 10px;">
+                A single woman has been found near your location! She has requested private encounters and satisfaction.
+            </p>
+
+            <div class="profile-container">
+                <img src="fgk.webp" id="targetProfilePic" alt="Alyssa Watson" class="profile-pic">
+                <div class="active-dot"></div>
+            </div>
+
+            <div class="profile-name">
+                Alyssa Watson 
+                <span class="verified-badge">
+                    <svg viewBox="0 0 24 24" fill="#1d9bf0" width="100%" height="100%">
+                        <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.99-3.818-3.99-.48 0-.94.1-1.348.27C14.825 2.515 13.512 1.66 12 1.66c-1.512 0-2.825.855-3.422 2.12-.408-.17-.867-.27-1.348-.27-2.108 0-3.818 1.78-3.818 3.99 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.71 3.99 3.818 3.99.48 0 .94-.1 1.348-.27.597 1.265 1.91 2.12 3.422 2.12 1.512 0 2.825-.855 3.422-2.12.408.17.867.27 1.348.27 2.108 0 3.818-1.78 3.818-3.99 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6zm-12.614 3.91l-3.31-3.3 1.414-1.414 1.896 1.895 5.257-5.257 1.414 1.414-6.67 6.664z"/>
+                    </svg>
+                </span>
+            </div>
+
+            <div class="location-badge">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                Distance: 4km away
+            </div>
+
+            <div class="profile-details">
+                Age: 37 <br>
+                Mobile: 0468 277 ***
+            </div>
+
+            <p class="text-title" style="font-size: 15px; margin-bottom: 20px;">
+                Complete your free profile validation to start private live chatting instantly with Alyssa Watson.
+            </p>
+
+            <div class="btn-cpa" onclick="triggerFinalLinkBuffering()">
+                Complete Your Profile
+            </div>
+
+            <button class="btn-msg-trigger" onclick="openChatInterface()">
+                💬 Message Alyssa Now
+            </button>
+
+        </div>
+    </div>
+
+    <div id="chatPage">
+        <div class="chat-top-navbar">
+            <div class="chat-site-branding">
+                <img src="sf1.png" alt="Secure Affiliate Website Platform Logo">
+            </div>
+            
+            <div class="chat-header-main">
+                <button class="chat-back-btn" onclick="closeChatInterface()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                </button>
+                
+                <div class="chat-user-profile">
+                    <img src="fgk.webp" class="chat-avatar" alt="Alyssa Avatar">
+                    <div>
+                        <div class="chat-user-name">Alyssa Watson</div>
+                        <div class="chat-status-dot">Active Now</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-messages-container" id="chatMessagesBox">
+            <div class="msg incoming">Hey there! I am waiting for someone special tonight.. Are you nearby? 💋</div>
+        </div>
+
+        <div class="typing-indicator" id="chatTypingIndicator" style="margin-left: 20px; margin-bottom: 15px;">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="chat-bottom-input-bar">
+            <input type="text" id="chatInputField" placeholder="Type a secure reply..." onkeydown="if(event.key === 'Enter') handleMessageSend()">
+            <button class="chat-action-send-btn" onclick="handleMessageSend()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="secure-modal" id="secureCpaModal">
+        <div class="secure-modal-content">
+            <img src="sf1.png" class="modal-logo" alt="Main Website Corporate Identity Logo">
+            <div class="modal-error-box">
+                আপনার নিবন্ধিত কোন অ্যাকাউন্ট নেই মেসেজিং করার জন্য। মেসেজিং চালু রাখতে এবং চ্যাটিং সম্পূর্ণ করতে আপনার প্রোফাইলটি দ্রুত সাইন আপ করুন।
+            </div>
+            <a href="javascript:void(0)" class="btn-modal-action" onclick="redirectToAffiliate()">সাইন আপ করুন / Sign Up Now</a>
+        </div>
+    </div>
+
+    <div id="finalBufferingScreen" style="background: #ffffff; color: #000;">
+        <div class="final-logo-box" style="margin-bottom: 0;">
+            <img src="sf1.png" alt="Secure Logo">
+        </div>
+        <div class="powered-tag" style="text-align: center; margin-bottom: 30px;">Powered by Locanto</div>
+        <div class="spinner" style="border-left-color: #fc00ff; border-top-color: rgba(0,0,0,0.1);"></div>
     </div>
 
     <script>
@@ -156,11 +943,156 @@
                 slides[currentSlideIndex].classList.add('active');
             }
         }
-        setInterval(changeBackground, 1000); // ছবির স্লাইড চালু থাকবে
+        setInterval(changeBackground, 1000);
 
-        function directAffiliateLink() {
-            // বাটনে ক্লিক করার সাথে সাথে সরাসরি অ্যাফিলিয়েট লিংক ওপেন করবে
-            window.open("https://paysale.g2afse.com/click?pid=125904&offer_id=10417&sub1=Locantox1", "_self");
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step-content').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+        }
+
+        function triggerFirstBuffering() {
+            document.getElementById('pageWrapper').style.display = 'none';
+            document.getElementById('mainSlider').style.display = 'none';
+            document.getElementById('bufferingScreen').style.display = 'flex';
+
+            const statusText = document.getElementById('scanStatusText');
+            const detailsText = document.getElementById('scanDetailsText');
+            const scanPic = document.getElementById('liveScanPic');
+
+            let picNumber = 1;
+            const picInterval = setInterval(() => {
+                scanPic.src = 'q' + picNumber + '.webp';
+                picNumber = (picNumber % 10) + 1;
+            }, 100);
+
+            setTimeout(() => {
+                statusText.innerText = "SEARCHING NEARBY TRAFFIC...";
+                detailsText.innerText = "Scanning radius 5.4km... [41 profiles found]";
+            }, 800);
+
+            setTimeout(() => {
+                statusText.style.color = "#fc00ff";
+                statusText.innerText = "FILTERING VERIFIED FEMALE PROFILES...";
+                detailsText.innerText = "Matching intimacy criteria... Syncing database...";
+            }, 1800);
+
+            setTimeout(() => {
+                clearInterval(picInterval);
+                scanPic.src = 'fgk.webp';
+                statusText.style.color = "#23d160";
+                statusText.innerText = "MATCH FOUND SUCCESSFULLY!";
+                detailsText.innerText = "Connecting secure profile terminal...";
+                
+                setTimeout(() => {
+                    document.getElementById('bufferingScreen').style.display = 'none';
+                    document.getElementById('finalPage').style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        document.getElementById('targetProfilePic').classList.add('blur-active');
+                    }, 2000);
+                    
+                }, 400);
+
+            }, 3000);
+        }
+
+        function triggerFinalLinkBuffering() {
+            document.getElementById('finalPage').style.display = 'none';
+            document.getElementById('finalBufferingScreen').style.display = 'flex';
+
+            setTimeout(() => {
+                window.open("https://paysale.g2afse.com/click?pid=125904&offer_id=10417&sub1=Locantox1", "_blank");
+                document.getElementById('finalBufferingScreen').style.display = 'none';
+                document.getElementById('finalPage').style.display = 'flex';
+            }, 800);
+        }
+
+        /* ----------------------------------------------------
+           HIGHLY CONVERTING CHAT SYSTEM LOGIC FLOW
+        ---------------------------------------------------- */
+        let totalSentMessages = 0;
+        const chatPage = document.getElementById('chatPage');
+        const chatBox = document.getElementById('chatMessagesBox');
+        const typingIndicator = document.getElementById('chatTypingIndicator');
+        const inputField = document.getElementById('chatInputField');
+
+        function openChatInterface() {
+            document.getElementById('finalPage').style.display = 'none';
+            chatPage.style.display = 'flex';
+            autoScrollChat();
+        }
+
+        function closeChatInterface() {
+            chatPage.style.display = 'none';
+            document.getElementById('finalPage').style.display = 'flex';
+        }
+
+        function handleMessageSend() {
+            const userText = inputField.value.trim();
+            if (userText === "") return;
+
+            // Trigger registration modal if user attempts 2nd message
+            if (totalSentMessages >= 1) {
+                document.getElementById('secureCpaModal').style.display = 'flex';
+                inputField.value = "";
+                return;
+            }
+
+            totalSentMessages++;
+
+            // Append Outgoing Message Node
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'msg outgoing';
+            userMsgDiv.innerText = userText;
+            chatBox.appendChild(userMsgDiv);
+
+            // Append Delivery metadata
+            const metaDiv = document.createElement('div');
+            metaDiv.className = 'msg-meta';
+            metaDiv.innerHTML = `<span>Sent</span> <img src="fgk.webp" class="seen-avatar" id="seenPic">`;
+            chatBox.appendChild(metaDiv);
+
+            inputField.value = "";
+            autoScrollChat();
+
+            // 1. Seen status trigger after 2 seconds
+            setTimeout(() => {
+                metaDiv.querySelector('span').innerText = "Seen";
+                const seenAvatar = metaDiv.querySelector('#seenPic');
+                seenAvatar.classList.add('show'); // Avatar falls down realistically
+                autoScrollChat();
+
+                // 2. Typing animation starts after another 1 second
+                setTimeout(() => {
+                    typingIndicator.style.display = 'block';
+                    autoScrollChat();
+
+                    // 3. English Reply matching user requirements after 3 seconds of typing
+                    setTimeout(() => {
+                        typingIndicator.style.display = 'none';
+                        
+                        const incomingMsgDiv = document.createElement('div');
+                        incomingMsgDiv.className = 'msg incoming';
+                        incomingMsgDiv.innerText = "Hey! Did you come from Locanto? 😳";
+                        chatBox.appendChild(incomingMsgDiv);
+                        
+                        autoScrollChat();
+                    }, 3000);
+
+                }, 1000);
+
+            }, 2000);
+        }
+
+        function autoScrollChat() {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function redirectToAffiliate() {
+            window.open("https://paysale.g2afse.com/click?pid=125904&offer_id=10417&sub1=Locantox1", "_blank");
+            document.getElementById('secureCpaModal').style.display = 'none';
         }
     </script>
 </body>
