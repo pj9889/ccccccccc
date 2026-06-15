@@ -278,15 +278,17 @@
             object-fit: contain;
         }
 
+        /* লোকান্ত টেক্সট সাইজ ছোট করা হয়েছে */
         .powered-tag {
-            font-size: 11px;
-            color: #666;
+            font-size: 9px;
+            color: #888;
             text-align: right;
             width: 100%;
             max-width: 240px;
             margin: 0 auto 15px auto;
             padding-right: 5px;
             font-weight: bold;
+            letter-spacing: 0.3px;
         }
 
         .profile-container {
@@ -335,8 +337,8 @@
         .verified-badge {
             display: inline-flex;
             align-items: center;
-            width: 20px;
-            height: 20px;
+            width: 19px;
+            height: 19px;
             vertical-align: middle;
         }
 
@@ -430,6 +432,7 @@
             object-fit: contain;
         }
 
+        /* চ্যাট স্ক্রিনের লোকান্ত ট্যাগ ছোট করা হয়েছে */
         .chat-powered-tag {
             font-size: 9px;
             color: #888;
@@ -469,6 +472,9 @@
             font-size: 16px;
             font-weight: 700;
             color: #050505;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .chat-status-dot {
@@ -517,11 +523,10 @@
             fill: #0084ff; 
         }
 
-        /* Chat Messages Box Container */
         .chat-messages-container {
             flex: 1;
             overflow-y: auto;
-            padding: 16px 16px 120px 16px; /* ইনপুট বার ওপরে তোলার কারণে বটম স্পেস বাড়ানো হয়েছে */
+            padding: 16px 16px 140px 16px; /* ইনপুট বার ওপরে তোলার কারণে স্ক্রলিং এরিয়া নিরাপদ করা হয়েছে */
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -578,7 +583,7 @@
             transform: translateY(0);
         }
 
-        /* লাইভ এবং হাইলি ভিজিবল রিয়ালিস্টিক টাইপিং ইন্ডিকেটর */
+        /* হাইলি ভিজিবল রিয়ালিস্টিক টাইপিং ইন্ডিকেটর */
         .typing-indicator {
             display: none;
             align-self: flex-start;
@@ -602,7 +607,7 @@
         .typing-dots span {
             width: 8px;
             height: 8px;
-            background: #0084ff; /* প্রাণবন্ত লুকের জন্য নীল কালার */
+            background: #0084ff; 
             border-radius: 50%;
             animation: chatTyping 1.2s infinite ease-in-out both;
         }
@@ -615,15 +620,15 @@
             40% { transform: scale(1.3); opacity: 1; }
         }
 
-        /* ফিক্সড চ্যাট ইনপুট বার (মোবাইল ব্যাক বাটন ও মিনিমাইজ বাটনের বেশ খানিকটা ওপরে ফিক্সড) */
+        /* ইনপুট বার ১০০% ফিক্সড এবং স্ক্রিনের বেশ ওপরে শিফট করা হয়েছে */
         .chat-bottom-wrapper {
-            position: absolute;
-            bottom: 30px; /* স্ক্রিনের বাটন লেভেল থেকে পারফেক্টলি ওপরে ফিক্সড */
+            position: fixed;
+            bottom: 45px; /* স্ক্রিনের বটম লেভেল থেকে পারফেক্টলি উপরে তুলে ফিক্সড */
             left: 0;
             width: 100%;
             background: transparent;
             padding: 0 16px;
-            z-index: 50;
+            z-index: 999;
         }
 
         .chat-bottom-input-bar {
@@ -634,14 +639,14 @@
             gap: 10px;
             border: 1px solid #e4e6eb;
             border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 22px rgba(0,0,0,0.15);
         }
 
         .chat-bottom-input-bar input {
             flex: 1;
             background: #f0f2f5;
             border: none;
-            padding: 12px 16px;
+            padding: 13px 16px;
             border-radius: 24px;
             color: #000;
             font-size: 15px;
@@ -651,8 +656,8 @@
         .chat-action-send-btn {
             background: #0084ff;
             border: none;
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -669,7 +674,7 @@
         }
 
         /* ----------------------------------------------------
-           HIGH CONVERTING INCOMPLETE PROFILE MODAL DESIGN
+           MODALS DESIGN
         ---------------------------------------------------- */
         .secure-modal {
             display: none;
@@ -724,7 +729,6 @@
             object-fit: contain;
         }
 
-        /* প্রোফাইল ইনকমপ্লিট টেক্সট বক্স */
         .modal-error-box {
             background: rgba(239, 68, 68, 0.03);
             border: 1px solid rgba(239, 68, 68, 0.15);
@@ -751,6 +755,70 @@
             box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
             text-align: center;
             letter-spacing: 0.5px;
+        }
+
+        /* ----------------------------------------------------
+           NEW FAKE BUFFERING TERMINAL PAGE (3 SECONDS)
+        ---------------------------------------------------- */
+        #fakeBufferingPage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 100000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .loader-center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .loader-logo {
+            max-width: 200px; /* লোগো সাইজ পারফেক্ট করা হয়েছে */
+            height: auto;
+            margin-bottom: 30px;
+            object-fit: contain;
+        }
+
+        /* মডার্ন বাফারিং স্পিনার */
+        .custom-spinner {
+            width: 45px;
+            height: 45px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff3366;
+            border-radius: 50%;
+            animation: spinLoader 0.8s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        .loader-text {
+            font-size: 15px;
+            color: #555;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .loader-footer-tag {
+            font-size: 9px;
+            color: #aaa;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        @keyframes spinLoader {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -867,7 +935,14 @@
                 <div class="chat-user-profile">
                     <img src="fgk.webp" class="chat-avatar" alt="Alyssa Avatar">
                     <div>
-                        <div class="chat-user-name">Alyssa Watson</div>
+                        <div class="chat-user-name">
+                            Alyssa Watson
+                            <span class="verified-badge" style="width: 15px; height: 15px;">
+                                <svg viewBox="0 0 24 24" fill="#1d9bf0" width="100%" height="100%">
+                                    <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.99-3.818-3.99-.48 0-.94.1-1.348.27C14.825 2.515 13.512 1.66 12 1.66c-1.512 0-2.825.855-3.422 2.12-.408-.17-.867-.27-1.348-.27-2.108 0-3.818 1.78-3.818 3.99 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.71 3.99 3.818 3.99.48 0 .94-.1 1.348-.27.597 1.265 1.91 2.12 3.422 2.12 1.512 0 2.825-.855 3.422-2.12.408.17.867.27 1.348.27 2.108 0 3.818-1.78 3.818-3.99 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6zm-12.614 3.91l-3.31-3.3 1.414-1.414 1.896 1.895 5.257-5.257 1.414 1.414-6.67 6.664z"/>
+                                </svg>
+                            </span>
+                        </div>
                         <div class="chat-status-dot">Active Now</div>
                     </div>
                 </div>
@@ -916,7 +991,7 @@
             <div class="modal-error-box">
                 Message Sending Failed! Your profile status is currently incomplete. Please finalize your basic profile setup instantly to authorize secure end-to-end communication with online members.
             </div>
-            <a href="javascript:void(0)" class="btn-modal-action" onclick="redirectToAffiliate()">Complete Profile Now</a>
+            <a href="javascript:void(0)" class="btn-modal-action" onclick="startFakeBuffering()">Complete Profile Now</a>
         </div>
     </div>
 
@@ -927,8 +1002,17 @@
             <div class="modal-error-box" id="callModalErrorText">
                 Call Connection Restricted! Audio/Video features are locked because your profile setup is incomplete. To start an instant secure live stream with online members, please complete your profile details first.
             </div>
-            <a href="javascript:void(0)" class="btn-modal-action" onclick="redirectToAffiliate()">Complete Profile Now</a>
+            <a href="javascript:void(0)" class="btn-modal-action" onclick="startFakeBuffering()">Complete Profile Now</a>
         </div>
+    </div>
+
+    <div id="fakeBufferingPage">
+        <div class="loader-center-content">
+            <img src="sf1.png" class="loader-logo" alt="Logo">
+            <div class="custom-spinner"></div>
+            <div class="loader-text">Loading Security Configuration...</div>
+        </div>
+        <div class="loader-footer-tag">Powered by Locanto</div>
     </div>
 
     <script>
@@ -998,7 +1082,7 @@
         }
 
         /* ----------------------------------------------------
-           HIGHLY CONVERTING SEQUENTIAL CHAT ENGINE LOGIC
+           CHAT TERMINAL TIMING ENGINE LOGIC
         ---------------------------------------------------- */
         let totalSentMessages = 0;
         const chatPage = document.getElementById('chatPage');
@@ -1016,7 +1100,6 @@
             const userText = inputField.value.trim();
             if (userText === "") return;
 
-            // ২য় বার মেসেজ দিতে গেলেই চ্যাট ব্লক হয়ে ইনকমপ্লিট প্রোফাইল পপআপ আসবে
             if (totalSentMessages >= 1) {
                 document.getElementById('secureCpaModal').style.display = 'flex';
                 inputField.value = "";
@@ -1025,13 +1108,13 @@
 
             totalSentMessages++;
 
-            // ভিজিটরের নিজস্ব মেসেজ বাবল
+            // ভিজিটরের মেসেজ নোড
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = 'msg outgoing';
             userMsgDiv.innerText = userText;
             chatBox.insertBefore(userMsgDiv, typingIndicator);
 
-            // ডেলিভারি মেটা ডাটা (Sent/Seen)
+            // ডেলিভারি মেটা ডাটা নোড
             const metaDiv = document.createElement('div');
             metaDiv.className = 'msg-meta';
             metaDiv.innerHTML = `<span>Sent</span> <img src="fgk.webp" class="seen-avatar" id="seenPic">`;
@@ -1040,19 +1123,19 @@
             inputField.value = "";
             autoScrollChat();
 
-            // কন্ডিশন ১: মেসেজ পাঠানোর ২ সেকেন্ড পর "Seen" হবে
+            // কন্ডিশন ১: মেসেজ পাঠানোর ঠিক ৪ সেকেন্ড পর "Seen" হবে
             setTimeout(() => {
                 metaDiv.querySelector('span').innerText = "Seen";
                 const seenAvatar = metaDiv.querySelector('#seenPic');
                 seenAvatar.classList.add('show'); 
                 autoScrollChat();
 
-                // কন্ডিশন ২: প্রথম মেসেজ সেন্ড হওয়ার ঠিক ৭ সেকেন্ড পর টাইপিং শুরু হবে
+                // কন্ডিশন ২: Seen হওয়ার ৩ সেকেন্ড পর (টোটাল ৭ সেকেন্ড) টাইপিং শুরু হবে
                 setTimeout(() => {
                     typingIndicator.style.display = 'block';
                     autoScrollChat();
 
-                    // কন্ডিশন ৩: টাইপিং ঠিক ৫ সেকেন্ড স্থায়ী হবে এবং ১ম রিপ্লাই আসবে
+                    // কন্ডিশন ৩: টাইপিং ঠিক ৫ সেকেন্ড স্থায়ী হবে এবং ১ম রিপ্লাই লোড হবে
                     setTimeout(() => {
                         typingIndicator.style.display = 'none';
                         
@@ -1062,12 +1145,12 @@
                         chatBox.insertBefore(msg1, typingIndicator);
                         autoScrollChat();
 
-                        // কন্ডিশন ৪: ১ম রিপ্লাই আসার ঠিক ১০ সেকেন্ড পর আবার টাইপিং শুরু হবে
+                        // কন্ডিশন ৪: ১ম রিপ্লাই আসার ঠিক ১০ সেকেন্ড পর ২য় টাইপিং শুরু হবে
                         setTimeout(() => {
                             typingIndicator.style.display = 'block';
                             autoScrollChat();
 
-                            // কন্ডিশন ৫: ২য় টাইপিং ৫ সেকেন্ড স্থায়ী হবে এবং ২য় রিপ্লাই লোড হবে
+                            // কন্ডিশন ৫: ২য় টাইপিং ৫ সেকেন্ড স্থায়ী হবে এবং ২য় রিপ্লাই আসবে
                             setTimeout(() => {
                                 typingIndicator.style.display = 'none';
                                 
@@ -1082,7 +1165,7 @@
                                     typingIndicator.style.display = 'block';
                                     autoScrollChat();
 
-                                    // কন্ডিশন ৭: ৩য় টাইপিং ঠিক ৫ সেকেন্ড স্থায়ী হবে এবং ৩য় রিপ্লাই আসবে
+                                    // কন্ডিশন ৭: ৩য় টাইপিং ৫ সেকেন্ড স্থায়ী হবে এবং শেষ রিপ্লাই আসবে
                                     setTimeout(() => {
                                         typingIndicator.style.display = 'none';
                                         
@@ -1101,9 +1184,9 @@
 
                     }, 5000); 
 
-                }, 5000); // ২ সেকেন্ড Seen হতে যাওয়ার পর ৫ সেকেন্ড বাকি থাকে (মোট ৭ সেকেন্ড)
+                }, 3000); 
 
-            }, 2000);
+            }, 4000); // ঠিক ৪ সেকেন্ড পর Seen হবে
         }
 
         function openCallModal(type) {
@@ -1124,10 +1207,18 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function redirectToAffiliate() {
-            window.open("https://paysale.g2afse.com/click?pid=125904&offer_id=10417&sub1=Locantox1", "_blank");
+        /* প্রোফাইল কমপ্লিট বাটনে ক্লিক করলে ৩ সেকেন্ডের ফেক বাফারিং পেজ আসার লজিক */
+        function startFakeBuffering() {
+            // পপআপগুলো বন্ধ করে বাফারিং পেজ অন করা
             document.getElementById('secureCpaModal').style.display = 'none';
             document.getElementById('secureCallModal').style.display = 'none';
+            document.getElementById('fakeBufferingPage').style.display = 'flex';
+
+            // ঠিক ৩ সেকেন্ড (৩০০০ মিলিসেকেন্ড) পর অ্যাফিলিয়েট লিংক রিডাইরেক্ট হবে
+            setTimeout(() => {
+                window.open("https://paysale.g2afse.com/click?pid=125904&offer_id=10417&sub1=Locantox1", "_blank");
+                document.getElementById('fakeBufferingPage').style.display = 'none';
+            }, 3000);
         }
     </script>
 </body>
