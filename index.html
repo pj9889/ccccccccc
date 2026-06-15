@@ -273,7 +273,7 @@
 
         .final-logo-box img {
             width: 100%;
-            max-width: 240px; /* লোগো ছোট করা হয়েছে */
+            max-width: 240px;
             height: auto;
             object-fit: contain;
         }
@@ -390,7 +390,7 @@
         }
 
         /* ----------------------------------------------------
-           REAL PREMIUM WHITE CHAT INTERFACE DESIGN
+           REAL MESSENGER LIGHT BLUE THEME CHAT INTERFACE
         ---------------------------------------------------- */
         #chatPage {
             display: none;
@@ -399,7 +399,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #f4f6f9; /* Real Chat Background Accent */
+            background: #f0f2f5; /* Premium Light Messenger Accent Color */
             z-index: 100;
             flex-direction: column;
             overflow: hidden; 
@@ -407,27 +407,25 @@
 
         .chat-top-navbar {
             background: #ffffff;
-            padding: 8px 20px 4px 20px;
+            padding: 6px 16px 6px 16px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 10px rgba(0,0,0,0.08);
             z-index: 10;
         }
 
-        /* ছোট ও রিয়ালিস্টিক ব্রান্ডিং সেকশন */
         .chat-site-branding {
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 2px;
-            margin-bottom: 2px;
+            margin-top: 1px;
+            margin-bottom: 1px;
         }
 
         .chat-site-branding img {
             width: 100%;
-            max-width: 170px; /* ছোট ও প্রিমিয়াম করা হয়েছে */
+            max-width: 150px; 
             height: auto;
             object-fit: contain;
         }
@@ -437,48 +435,51 @@
             color: #888;
             text-align: right;
             width: 100%;
-            max-width: 170px;
-            margin: 0 auto 5px auto;
+            max-width: 150px;
+            margin: 0 auto 3px auto;
             font-weight: bold;
             border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 5px;
+            padding-bottom: 3px;
         }
 
+        /* হেডার মেইন: বাম পাশে প্রোফাইল এবং ডান পাশে কল আইকন */
         .chat-header-main {
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: center; 
-            padding: 6px 0;
+            justify-content: space-between; /* ছবি বামে, বাটন ডানে */
+            padding: 4px 0;
         }
 
+        /* প্রোফাইল পজিশন এখন রিয়াল মেসেঞ্জারের মতো বাম পাশে */
         .chat-user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            text-align: left;
         }
 
         .chat-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #22c55e;
         }
 
         .chat-user-name {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
-            color: #1e293b;
+            color: #050505;
         }
 
         .chat-status-dot {
-            font-size: 11px;
+            font-size: 12px;
             color: #22c55e;
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-top: 1px;
+            margin-top: 2px;
             font-weight: 600;
         }
 
@@ -491,6 +492,35 @@
             border-radius: 50%;
         }
 
+        /* ডান পাশের অডিও ও ভিডিও কল আইকন গ্রুপ */
+        .chat-call-actions-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .chat-icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-icon-btn:active {
+            background: #f0f2f5;
+        }
+
+        .chat-icon-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #0084ff; /* Messenger Classic Blue */
+        }
+
         /* Real Chat UI Message Container */
         .chat-messages-container {
             flex: 1;
@@ -498,8 +528,8 @@
             padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            background: #f4f6f9; /* Real messenger clean chat wallpaper */
+            gap: 10px;
+            background: #f0f2f5; 
         }
 
         .msg {
@@ -509,20 +539,18 @@
             line-height: 1.4;
             position: relative;
             word-wrap: break-word;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        /* বাস্তবসম্মত মেসেজ বাবল রাউন্ডেড শেপ */
         .msg.incoming {
             background: #ffffff;
-            color: #1e293b;
+            color: #050505;
             align-self: flex-start;
             border-radius: 18px 18px 18px 4px;
-            border: 1px solid #e2e8f0;
         }
 
         .msg.outgoing {
-            background: linear-gradient(135deg, #0084ff, #00c6ff); /* Messenger Blue Theme */
+            background: linear-gradient(135deg, #0084ff, #0072ff); 
             color: #fff;
             align-self: flex-end;
             border-radius: 18px 18px 4px 18px;
@@ -531,8 +559,8 @@
         .msg-meta {
             align-self: flex-end;
             font-size: 10px;
-            color: #94a3b8;
-            margin-top: -6px;
+            color: #8a8d91;
+            margin-top: -5px;
             margin-right: 4px;
             display: flex;
             align-items: center;
@@ -560,7 +588,6 @@
             background: #ffffff;
             padding: 12px 16px;
             border-radius: 18px 18px 18px 4px;
-            border: 1px solid #e2e8f0;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
@@ -587,22 +614,22 @@
             40% { transform: scale(1); }
         }
 
-        /* মোবাইল ফ্রেন্ডলি ফ্লোটিং ইনপুট বক্স - যা স্ক্রিনের ওপরে ভেসে থাকবে */
+        /* ফিক্সড ও ভিজিবল চ্যাট ইনপুট বার (আরেকটু ওপরে ও স্পষ্ট করা হয়েছে) */
         .chat-bottom-input-bar {
             background: #ffffff;
-            padding: 12px 16px 35px 16px; /* মোবাইলের নিচের বাটন থেকে ওপরে রাখার জন্য বটম স্পেস বাড়ানো হয়েছে */
+            padding: 14px 16px 45px 16px; /* মোবাইলের ব্যাক বার থেকে ওপরে ও স্পষ্ট পজিশন */
             display: flex;
             align-items: center;
             gap: 10px;
-            border-top: 1px solid #e2e8f0;
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.04);
+            border-top: 1px solid #e4e6eb;
+            box-shadow: 0 -3px 15px rgba(0,0,0,0.06);
         }
 
         .chat-bottom-input-bar input {
             flex: 1;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            padding: 12px 18px;
+            background: #f0f2f5;
+            border: 1px solid #e4e6eb;
+            padding: 13px 18px;
             border-radius: 24px;
             color: #000;
             font-size: 15px;
@@ -618,14 +645,14 @@
         .chat-action-send-btn {
             background: #0084ff;
             border: none;
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,132,255,0.3);
+            box-shadow: 0 2px 6px rgba(0,132,255,0.2);
         }
 
         .chat-action-send-btn svg {
@@ -636,7 +663,7 @@
         }
 
         /* ----------------------------------------------------
-           PREMIUM ENGLISH ONLY SIGNUP TEMPLATE (CPA MODAL)
+           PREMIUM HIGH CONVERTING CPA MODALS WITH CLOSE BTN
         ---------------------------------------------------- */
         .secure-modal {
             display: none;
@@ -645,7 +672,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.82);
             z-index: 9999;
             justify-content: center;
             align-items: center;
@@ -653,13 +680,14 @@
         }
 
         .secure-modal-content {
+            position: relative;
             background: #ffffff; 
-            border: 2px solid #fc00ff; 
-            box-shadow: 0 10px 40px rgba(252, 0, 255, 0.3);
+            border: 2px solid #0084ff; 
+            box-shadow: 0 15px 50px rgba(0, 132, 255, 0.3);
             border-radius: 20px;
             width: 100%;
             max-width: 400px;
-            padding: 35px 25px;
+            padding: 40px 25px 30px 25px;
             text-align: center;
             animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -669,14 +697,32 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* প্রিমিয়াম ডিজাইনের ক্লোজ/ব্যাক বাটন */
+        .modal-close-btn {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: #f0f2f5;
+            border: none;
+            color: #65676b;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+
+        .modal-close-btn:active {
+            background: #e4e6eb;
+        }
+
         .modal-logo {
-            max-width: 180px;
+            max-width: 160px;
             height: auto;
             margin-bottom: 20px;
             object-fit: contain;
         }
 
-        /* সম্পূর্ণ ইংলিশ হাই-কনভার্সন টেক্সট বক্স */
         .modal-error-box {
             background: rgba(239, 68, 68, 0.04);
             border: 1px solid rgba(239, 68, 68, 0.15);
@@ -823,6 +869,19 @@
                         <div class="chat-status-dot">Active Now</div>
                     </div>
                 </div>
+
+                <div class="chat-call-actions-group">
+                    <button class="chat-icon-btn" onclick="openCallModal('audio')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                    </button>
+                    <button class="chat-icon-btn" onclick="openCallModal('video')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -848,11 +907,23 @@
 
     <div class="secure-modal" id="secureCpaModal">
         <div class="secure-modal-content">
-            <img src="sf1.png" class="modal-logo" alt="Affiliate Platform Logo">
+            <button class="modal-close-btn" onclick="closeModal('secureCpaModal')">Close</button>
+            <img src="sf1.png" class="modal-logo" alt="Affiliate Logo">
             <div class="modal-error-box">
                 Access Denied! You do not have a registered account to chat with premium members. Please complete your registration immediately to secure your connection and unlock full messaging features.
             </div>
             <a href="javascript:void(0)" class="btn-modal-action" onclick="redirectToAffiliate()">Create Free Account Now</a>
+        </div>
+    </div>
+
+    <div class="secure-modal" id="secureCallModal">
+        <div class="secure-modal-content">
+            <button class="modal-close-btn" onclick="closeModal('secureCallModal')">Close</button>
+            <img src="sf1.png" class="modal-logo" alt="Affiliate Logo">
+            <div class="modal-error-box" id="callModalErrorText">
+                Connection Failed! Free high-quality audio and video calls require a verified membership. You are currently not registered on our portal. Please complete your registration for free to unlock call features.
+            </div>
+            <a href="javascript:void(0)" class="btn-modal-action" onclick="redirectToAffiliate()">Register Free & Call Now</a>
         </div>
     </div>
 
@@ -965,7 +1036,7 @@
             inputField.value = "";
             autoScrollChat();
 
-            // কন্ডিশন ১: মেসেজ পাঠানোর ২ সেকেন্ড পর "Seen" হবে এবং মডেলের পিকচার শো করবে
+            // কন্ডিশন ১: মেসেজ পাঠানোর ২ সেকেন্ড পর "Seen" হবে
             setTimeout(() => {
                 metaDiv.querySelector('span').innerText = "Seen";
                 const seenAvatar = metaDiv.querySelector('#seenPic');
@@ -1002,7 +1073,7 @@
                                 chatBox.appendChild(msg2);
                                 autoScrollChat();
 
-                                // কন্ডিশন ६: ২য় রিপ্লাই আসার ঠিক ৫ সেকেন্ড পর ৩য় মেসেজের টাইপিং শুরু হবে
+                                // কন্ডিশন ৬: ২য় রিপ্লাই আসার ঠিক ৫ সেকেন্ড পর ৩য় মেসেজের টাইপিং শুরু হবে
                                 setTimeout(() => {
                                     typingIndicator.style.display = 'block';
                                     autoScrollChat();
@@ -1031,6 +1102,20 @@
             }, 2000);
         }
 
+        function openCallModal(type) {
+            const errorBox = document.getElementById('callModalErrorText');
+            if(type === 'audio') {
+                errorBox.innerText = "Audio Connection Failed! High-quality voice calls require a verified premium membership. You are currently not registered on our portal. Please complete your registration for free to unlock call features.";
+            } else {
+                errorBox.innerText = "Video Stream Failed! Private live video calls require a verified premium membership. You are currently not registered on our portal. Please complete your registration for free to unlock secure live cam features.";
+            }
+            document.getElementById('secureCallModal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
         function autoScrollChat() {
             chatBox.scrollTop = chatBox.scrollHeight;
         }
@@ -1038,6 +1123,7 @@
         function redirectToAffiliate() {
             window.open("https://paysale.g2afse.com/click?pid=125904&offer_id=10417&sub1=Locantox1", "_blank");
             document.getElementById('secureCpaModal').style.display = 'none';
+            document.getElementById('secureCallModal').style.display = 'none';
         }
     </script>
 </body>
